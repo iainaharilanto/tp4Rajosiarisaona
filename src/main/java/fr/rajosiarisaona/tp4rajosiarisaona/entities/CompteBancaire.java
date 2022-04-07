@@ -14,27 +14,29 @@ import javax.persistence.Id;
  *
  * @author Iaina
  */
-@Entity
+//@Entity
+@Entity(name="compte")
 public class CompteBancaire implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long Id;
 
     public CompteBancaire() {
     }
 
     public CompteBancaire(String nom, int solde) {
-        this.solde = solde;
-        this.nom = nom;
+        this.Solde = solde;
+        this.Nom = nom;
     }
 
     public Long getId() {
-        return id;
+        return Id;
     }
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private String nom;
+    //@Id
+    //@GeneratedValue(strategy = GenerationType.AUTO)
+    private String Nom;
 
     /**
      * Get the value of nom
@@ -42,7 +44,7 @@ public class CompteBancaire implements Serializable {
      * @return the value of nom
      */
     public String getNom() {
-        return nom;
+        return Nom;
     }
 
     /**
@@ -51,11 +53,11 @@ public class CompteBancaire implements Serializable {
      * @param nom new value of nom
      */
     public void setNom(String nom) {
-        this.nom = nom;
+        this.Nom = nom;
     }
 
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int solde;
+    //@GeneratedValue(strategy = GenerationType.AUTO)
+    private int Solde;
 
     /**
      * Get the value of solde
@@ -63,7 +65,7 @@ public class CompteBancaire implements Serializable {
      * @return the value of solde
      */
     public int getSolde() {
-        return solde;
+        return Solde;
     }
 
     /**
@@ -72,13 +74,13 @@ public class CompteBancaire implements Serializable {
      * @param solde new value of solde
      */
     public void setSolde(int solde) {
-        this.solde = solde;
+        this.Solde = solde;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (Id != null ? Id.hashCode() : 0);
         return hash;
     }
 
@@ -89,7 +91,7 @@ public class CompteBancaire implements Serializable {
             return false;
         }
         CompteBancaire other = (CompteBancaire) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.Id == null && other.Id != null) || (this.Id != null && !this.Id.equals(other.Id))) {
             return false;
         }
         return true;
@@ -97,18 +99,18 @@ public class CompteBancaire implements Serializable {
 
     @Override
     public String toString() {
-        return "fr.rajosiarisaona.tp4rajosiarisaona.entities.CompteBancaire[ id=" + id + " ]";
+        return "fr.rajosiarisaona.tp4rajosiarisaona.entities.CompteBancaire[ id=" + Id + " ]";
     }
 
     public void deposer(int montant) {
-        solde += montant;
+        Solde += montant;
     }
 
     public void retirer(int montant) {
-        if (montant < solde) {
-            solde -= montant;
+        if (montant < Solde) {
+            Solde -= montant;
         } else {
-            solde = 0;
+            Solde = 0;
         }
     }
 
