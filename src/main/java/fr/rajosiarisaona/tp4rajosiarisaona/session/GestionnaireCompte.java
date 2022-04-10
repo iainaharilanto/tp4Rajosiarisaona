@@ -48,7 +48,7 @@ public class GestionnaireCompte {
     }
 
     public List<CompteBancaire> getAllCompteBancaire() {
-        Query query = em.createNamedQuery("Customer.findAll");
+        Query query = em.createNamedQuery("compte.findAll");
         return query.getResultList();
     }
 }
