@@ -5,6 +5,7 @@
 package fr.rajosiarisaona.tp4rajosiarisaona.entities;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,14 +26,15 @@ public class CompteBancaire implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="Id")
     private Long Id;
 
     public CompteBancaire() {
     }
 
     public CompteBancaire(String nom, int solde) {
-        this.Solde = solde;
-        this.Nom = nom;
+        this.solde = solde;
+        this.nom = nom;
     }
 
     public Long getId() {
@@ -40,7 +42,8 @@ public class CompteBancaire implements Serializable {
     }
     //@Id
     //@GeneratedValue(strategy = GenerationType.AUTO)
-    private String Nom;
+    @Column(name="Nom")
+    private String nom;
 
     /**
      * Get the value of nom
@@ -48,7 +51,7 @@ public class CompteBancaire implements Serializable {
      * @return the value of nom
      */
     public String getNom() {
-        return Nom;
+        return nom;
     }
 
     /**
@@ -57,11 +60,12 @@ public class CompteBancaire implements Serializable {
      * @param nom new value of nom
      */
     public void setNom(String nom) {
-        this.Nom = nom;
+        this.nom = nom;
     }
 
     //@GeneratedValue(strategy = GenerationType.AUTO)
-    private int Solde;
+    @Column(name="Solde")
+    private int solde;
 
     /**
      * Get the value of solde
@@ -69,7 +73,7 @@ public class CompteBancaire implements Serializable {
      * @return the value of solde
      */
     public int getSolde() {
-        return Solde;
+        return solde;
     }
 
     /**
@@ -78,7 +82,7 @@ public class CompteBancaire implements Serializable {
      * @param solde new value of solde
      */
     public void setSolde(int solde) {
-        this.Solde = solde;
+        this.solde = solde;
     }
 
     @Override
@@ -107,14 +111,14 @@ public class CompteBancaire implements Serializable {
     }
 
     public void deposer(int montant) {
-        Solde += montant;
+        solde += montant;
     }
 
     public void retirer(int montant) {
-        if (montant < Solde) {
-            Solde -= montant;
+        if (montant < solde) {
+            solde -= montant;
         } else {
-            Solde = 0;
+            solde = 0;
         }
     }
 

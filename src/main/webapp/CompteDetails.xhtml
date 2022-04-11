@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <f:metadata>
+        <f:viewParam name="idCompte" value="#{compteDetails.idCompte}"
+                     required="true"/>
+        <f:viewAction action="#{compteDetails.loadCompte}"/>
+    </f:metadata>
+    <h:head>
+        <title>detail d'un compte</title>
+    </h:head>
+    <h:body>
+        <f:view>
+            <h:form>
+                <h1><h:outputText value="Create/Edit"/></h1>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="Id:" for="id" />
+                    <h:inputText id="id" value="#{compteDetails.details.id}" title="Id" readonly="true"/>
+                    <h:outputLabel value="Nom:" for="nom" />
+                    <h:inputText id="nom" value="#{compteDetails.details.nom}" title="Nom" />
+                    <h:outputLabel value="Solde:" for="solde" />
+                    <h:inputText id="solde" value="#{compteDetails.details.solde}" title="Solde" />
+                </h:panelGrid>
+
+                <h:button id="back" value="Revenir à la liste" outcome="listeComptes"/>
+                <h:commandButton id="update" value="Enregistrer" action="#{compteDetails.update}"/>
+            </h:form>
+        </f:view>
+
+    </h:body>
+</html>
+
