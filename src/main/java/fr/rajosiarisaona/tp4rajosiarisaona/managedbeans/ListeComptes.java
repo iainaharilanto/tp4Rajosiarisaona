@@ -6,6 +6,7 @@ package fr.rajosiarisaona.tp4rajosiarisaona.managedbeans;
 
 import fr.rajosiarisaona.tp4rajosiarisaona.entities.CompteBancaire;
 import fr.rajosiarisaona.tp4rajosiarisaona.session.GestionnaireCompte;
+import fr.rajosiarisaona.tp4rajosiarisaona.utilities.Util;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import java.io.Serializable;
@@ -18,7 +19,6 @@ import javax.ejb.EJB;
  *
  * @author Iaina
  */
-
 @Named(value = "listeComptes")
 @ViewScoped
 public class ListeComptes implements Serializable {
@@ -26,8 +26,8 @@ public class ListeComptes implements Serializable {
     @EJB
     private GestionnaireCompte gestionnaireCompte;
     // = gestionnaireCompte.getAllCompteBancaire();
-    
-    private  List<CompteBancaire> allComptes;
+
+    private List<CompteBancaire> allComptes;
 
     /**
      * Get the value of allComptes
@@ -43,15 +43,28 @@ public class ListeComptes implements Serializable {
      */
     public ListeComptes() {
         this.allComptes = new ArrayList<>();
-        
+
     }
-   @PostConstruct
+
+    @PostConstruct
     public void init() {
         //System.out.println("fr.rajosiarisaona.tp4rajosiarisaona.managedbeans.ListeComptes.init()");
         allComptes.add(new CompteBancaire("Iaina", 150000));
         List<CompteBancaire> test = gestionnaireCompte.getAllCompteBancaire();
-        System.out.println("fr.rajosiarisaona.tp4rajosiarisaona.managedbeans.ListeComptes.init()"+test.toString());
+        System.out.println("fr.rajosiarisaona.tp4rajosiarisaona.managedbeans.ListeComptes.init()" + test.toString());
         allComptes = gestionnaireCompte.getAllCompteBancaire();
     }
-    
+
+    public String supprimerCompte(Long id) {
+        CompteBancaire c = gestionnaireCompte.getCompte(id);
+        if (c != null) {
+            gestionnaireCompte.supprimerCompte(c);
+            Util.addFlashInfoMessage("suppression effectuée");
+            return "listeComptes?faces-redirect=true";
+        }
+        Util.addFlashInfoMessage("suppression non effectuée");
+        return null;
+        //gestionnaireCompte.supprimerCompte(id);
+    }
+
 }

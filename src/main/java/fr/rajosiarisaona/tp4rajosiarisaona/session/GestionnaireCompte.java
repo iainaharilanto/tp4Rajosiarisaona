@@ -67,4 +67,40 @@ public class GestionnaireCompte {
         update(source);
         update(destination);
     }
+
+    /**
+     * Dépôt d'argent sur un compte bancaire.
+     *
+     * @param compteBancaire
+     * @param montant
+     */
+    public void deposer(CompteBancaire compteBancaire, int montant) {
+        compteBancaire.deposer(montant);
+        update(compteBancaire);
+    }
+
+    /**
+     * Retrait d'argent sur un compte bancaire.
+     *
+     * @param compteBancaire
+     * @param montant
+     */
+    public void retirer(CompteBancaire compteBancaire, int montant) {
+        compteBancaire.retirer(montant);
+        update(compteBancaire);
+    }
+
+    public void supprimerCompte(CompteBancaire c) {
+        if (!em.contains(c)) {
+            c = em.merge(c);
+        }
+        em.remove(c);
+    }
+
+    public void supprimerCompte(Long id) {
+        CompteBancaire c = em.find(CompteBancaire.class, id);
+        if (c != null) {
+            em.remove(c);
+        }
+    }
 }
