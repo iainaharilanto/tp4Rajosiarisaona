@@ -5,6 +5,7 @@
 package fr.rajosiarisaona.tp4rajosiarisaona.session;
 
 import fr.rajosiarisaona.tp4rajosiarisaona.entities.CompteBancaire;
+import fr.rajosiarisaona.tp4rajosiarisaona.entities.OperationBancaire;
 import java.util.List;
 import javax.annotation.sql.DataSourceDefinition;
 import javax.ejb.Stateless;

@@ -5,20 +5,25 @@
 package fr.rajosiarisaona.tp4rajosiarisaona.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 
 /**
  *
  * @author Iaina
  */
 //@Entity
-@Entity(name="compte")
+@Entity(name = "compte")
 @NamedQueries({
     @NamedQuery(name = "compte.findAll", query = "SELECT c FROM compte c")})
 public class CompteBancaire implements Serializable {
@@ -26,7 +31,7 @@ public class CompteBancaire implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="Id")
+    @Column(name = "Id")
     private Long Id;
 
     public CompteBancaire() {
@@ -35,6 +40,7 @@ public class CompteBancaire implements Serializable {
     public CompteBancaire(String nom, int solde) {
         this.solde = solde;
         this.nom = nom;
+        operations.add(new OperationBancaire("Création du compte", solde));
     }
 
     public Long getId() {
@@ -42,7 +48,7 @@ public class CompteBancaire implements Serializable {
     }
     //@Id
     //@GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="Nom")
+    @Column(name = "Nom")
     private String nom;
 
     /**
@@ -64,7 +70,7 @@ public class CompteBancaire implements Serializable {
     }
 
     //@GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="Solde")
+    @Column(name = "Solde")
     private int solde;
 
     /**
@@ -112,14 +118,23 @@ public class CompteBancaire implements Serializable {
 
     public void deposer(int montant) {
         solde += montant;
+        operations.add(new OperationBancaire("Credit", montant));
     }
 
     public void retirer(int montant) {
-        if (montant < solde) {
+        if (montant <= solde) {
             solde -= montant;
+            operations.add(new OperationBancaire("Debit", - montant));
         } else {
             solde = 0;
         }
     }
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<OperationBancaire> operations = new ArrayList<>();
+
+    public List<OperationBancaire> getOperations() {
+        return operations;
+    }
+ 
 }
