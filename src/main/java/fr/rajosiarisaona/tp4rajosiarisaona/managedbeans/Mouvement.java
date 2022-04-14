@@ -9,6 +9,7 @@ import fr.rajosiarisaona.tp4rajosiarisaona.session.GestionnaireCompte;
 import fr.rajosiarisaona.tp4rajosiarisaona.utilities.Util;
 import java.io.Serializable;
 import javax.ejb.EJB;
+import javax.ejb.EJBException;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
@@ -16,6 +17,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
+import javax.persistence.OptimisticLockException;
 
 /**
  * Backing bean pour la page qui effectue des mouvements sur un compte.
@@ -84,13 +86,19 @@ public class Mouvement implements Serializable {
     }
 
     public String enregistrerMouvement() {
-        if (typeMouvement.equals("ajout")) {
-            gestionnaireCompte.deposer(compte, montant);
-        } else {
-            gestionnaireCompte.retirer(compte, montant);
+        try {
+            if (typeMouvement.equals("ajout")) {
+                gestionnaireCompte.deposer(compte, montant);
+            } else {
+                gestionnaireCompte.retirer(compte, montant);
+            }
+            Util.addFlashInfoMessage("Mouvement enregistré sur compte de " + compte.getNom());
+            return "listeComptes?faces-redirect=true";
         }
-        Util.addFlashInfoMessage("Mouvement enregistré sur compte de " + compte.getNom());
-        return "listeComptes?faces-redirect=true";
+        catch(EJBException ex){
+            Util.addFlashInfoMessage("l'entité a deja été modifié par une tierce personne");
+            return "listeComptes?faces-redirect=true";
+        }
     }
 
 }

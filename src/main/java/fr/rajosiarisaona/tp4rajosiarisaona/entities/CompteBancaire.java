@@ -17,6 +17,7 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.Version;
 
 /**
  *
@@ -33,6 +34,9 @@ public class CompteBancaire implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "Id")
     private Long Id;
+    
+    @Version
+    private int version;
 
     public CompteBancaire() {
     }
@@ -124,7 +128,7 @@ public class CompteBancaire implements Serializable {
     public void retirer(int montant) {
         if (montant <= solde) {
             solde -= montant;
-            operations.add(new OperationBancaire("Debit", - montant));
+            operations.add(new OperationBancaire("Debit", -montant));
         } else {
             solde = 0;
         }
@@ -136,5 +140,5 @@ public class CompteBancaire implements Serializable {
     public List<OperationBancaire> getOperations() {
         return operations;
     }
- 
+
 }
